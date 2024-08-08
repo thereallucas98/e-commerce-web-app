@@ -4,7 +4,7 @@ import { Header } from '~/components/header'
 
 export function AppLayout() {
   return (
-    <div>
+    <div className="container-100">
       <Header />
 
       <div>
