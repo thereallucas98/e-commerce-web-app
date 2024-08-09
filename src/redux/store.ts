@@ -13,16 +13,14 @@ import {
 import storage from 'redux-persist/lib/storage'
 
 import cartReducer from './cart'
-import registerCashReducer from './cash'
 
 const persistConfig = {
-  key: 'admin-food-delivery@0.1.0',
+  key: 'fliters-ecommerce@0.1.0',
   storage,
 }
 
 const rootReducer = combineReducers({
   cart: cartReducer,
-  registerCash: registerCashReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

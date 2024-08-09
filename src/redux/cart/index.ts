@@ -1,42 +1,31 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { AditionalIngredient, IFood } from '~/models/food.model'
+import { Product } from '~/models/product.model'
 
 import { useAppSelector } from '../store'
 
-export type FoodMenu = {
-  food: IFood
-  aditionals: AditionalIngredient[]
-  beverages: AditionalIngredient[]
-  note?: string
-  type: string
-  hasCombo: boolean
-  typeOfMeal: 'combo' | 'food' | 'drink' | 'water' | 'food-accompaniment'
+export type CartItem = {
+  id: string
+  product: Product
+  color: string
+  size: string
 }
 
 type CartState = {
-  currentOrder: FoodMenu[] | null
+  currentOrder: CartItem[] | null
 }
 
 type AddShoppingDTO = {
-  item: {
-    food: IFood
-    aditionals: AditionalIngredient[]
-    beverages: AditionalIngredient[]
-    note?: string
-    type: string
-    hasCombo: boolean
-    typeOfMeal: 'combo' | 'food' | 'drink' | 'water'
-  }
+  item: CartItem
 }
 
 type RemoveShoppingItemDTO = {
   id: string
 }
 
-type UpdateShoppingItemDTO = RemoveShoppingItemDTO & {
-  item: AddShoppingDTO
-}
+// type UpdateShoppingItemDTO = RemoveShoppingItemDTO & {
+//   item: AddShoppingDTO
+// }
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -44,60 +33,23 @@ const cartSlice = createSlice({
     currentOrder: [],
   } as CartState,
   reducers: {
-    addNewFood: (
-      state,
-      { payload: { item } }: PayloadAction<AddShoppingDTO>,
-    ) => {
-      const newFood: IFood = {
-        ...item.food,
-        amount: item.food.amount,
-      }
-
-      const foodMenu = {
-        food: newFood,
-        aditionals: item.aditionals,
-        beverages: item.beverages,
-        note: item.note ?? '',
-        type: item.type,
-        hasCombo: item.hasCombo,
-        typeOfMeal: item.typeOfMeal,
-      }
-
+    addItem: (state, { payload: { item } }: PayloadAction<AddShoppingDTO>) => {
       if (state.currentOrder && state.currentOrder.length > 0) {
-        state.currentOrder = [...state.currentOrder, foodMenu]
+        state.currentOrder = [...state.currentOrder, item]
       } else {
-        state.currentOrder = [foodMenu]
+        state.currentOrder = [item]
       }
     },
-    updateFood: (
-      state,
-      { payload: { id, item } }: PayloadAction<UpdateShoppingItemDTO>,
-    ) => {
-      const currentIndex = state.currentOrder?.findIndex(
-        (cOItem) => cOItem?.food.id === id,
-      )
-
-      if (currentIndex !== undefined) {
-        if (state.currentOrder) {
-          const updatedCurrentOrderList = [
-            ...state.currentOrder.slice(0, currentIndex),
-            item.item,
-            ...state.currentOrder.slice(
-              currentIndex + 1,
-              state.currentOrder.length,
-            ),
-          ]
-
-          state.currentOrder = updatedCurrentOrderList
-        }
-      }
-    },
-    removeFood: (
+    // updateItem: (
+    //   state,
+    //   { payload: { id, item } }: PayloadAction<UpdateShoppingItemDTO>,
+    // ) => {},
+    removeItem: (
       state,
       { payload: { id } }: PayloadAction<RemoveShoppingItemDTO>,
     ) => {
       const updatedCart =
-        state.currentOrder?.filter((f) => f.food.id !== id) ?? []
+        state.currentOrder?.filter((rIid) => rIid.id === id) ?? []
 
       state.currentOrder = updatedCart
     },
@@ -107,8 +59,7 @@ const cartSlice = createSlice({
   },
 })
 
-export const { addNewFood, removeFood, resetCart, updateFood } =
-  cartSlice.actions
+export const { addItem, removeItem, resetCart } = cartSlice.actions
 
 export default cartSlice.reducer
 
