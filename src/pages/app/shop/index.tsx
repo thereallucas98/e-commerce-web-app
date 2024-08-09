@@ -24,7 +24,10 @@ export function Shop() {
   }
 
   return (
-    <main className="container-fluid vh-100 row align-items-center justify-content-center mx-auto">
+    <main
+      className="container-fluid vh-100 row align-items-center justify-content-center mx-auto"
+      style={{ maxWidth: 1440 }}
+    >
       <section className="col row row-cols-2">
         {product?.fotos.map((pic, index) => (
           <img
