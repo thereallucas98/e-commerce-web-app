@@ -106,7 +106,7 @@ export function Shop() {
                       <button
                         title={col.nome}
                         type="button"
-                        className={`rounded-circle ${field.value === col.codigo ? 'border border-success' : 'border border-dark'}`}
+                        className={`rounded-circle ${field.value === col.codigo ? 'border opacity-50 border-secondary' : 'border border-dark'}`}
                         key={col.codigo}
                         onClick={() => field.onChange(col.codigo)}
                         style={{
@@ -132,7 +132,7 @@ export function Shop() {
                     {product?.tamanhos.map((size) => (
                       <button
                         type="button"
-                        className={`p-2 px-3 ${field.value === size ? 'bg-dark text-light' : 'bg-transparent border border-dark'}`}
+                        className={`p-2 px-3 ${field.value === size ? 'border bg-dark text-light' : 'bg-transparent border border-dark'}`}
                         key={size}
                         onClick={() => field.onChange(size)}
                       >
