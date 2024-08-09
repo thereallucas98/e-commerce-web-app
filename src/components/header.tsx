@@ -1,9 +1,24 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Menu, Search, ShoppingBag } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { ChangeEvent, useCallback } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 
 import { NavLink } from './header/nav-link'
 
 export function Header() {
+  const [_, setSearchParams] = useSearchParams()
+
+  const handleSearchProductByName = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setSearchParams((state) => {
+        state.set('search', event.currentTarget.value)
+
+        return state
+      })
+    },
+    [setSearchParams],
+  )
+
   return (
     <header className="container-fluid d-flex align-items-center justify-content-between px-4 py-2 bg-dark border-bottom border-secondary">
       <Link to="/" className="text-decoration-none">
@@ -28,12 +43,13 @@ export function Header() {
             placeholder="Search"
             aria-label="Search"
             id="searchProduct"
+            onChange={handleSearchProductByName}
           />
         </label>
       </div>
 
       <div className="d-flex">
-        <div className="dropdown">
+        <div className="dropdown d-md-none">
           <button
             className="btn text-light"
             type="button"
@@ -44,7 +60,10 @@ export function Header() {
           >
             <Menu size={24} />
           </button>
-          <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <ul
+            className="dropdown-menu bg-dark"
+            aria-labelledby="dropdownMenuButton"
+          >
             <NavLink path="/shop" to="/shop" label="Shop" />
             <NavLink path="/stories" to="/stories" label="Stories" />
             <NavLink path="/about" to="/about" label="About" />

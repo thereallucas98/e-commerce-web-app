@@ -1,5 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useQuery } from '@tanstack/react-query'
+import { ShoppingBag } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
+import { useSearchParams } from 'react-router-dom'
+import { z } from 'zod'
 
 import { CheckboxInput } from '~/components/form/checkbox-input'
 import { Loading } from '~/components/loading'
@@ -7,13 +11,20 @@ import { ProductCard } from '~/components/product-card'
 import { getProducts } from '~/services/products/get-products.service'
 
 export function Dashboard() {
+  const [searchParams, _] = useSearchParams()
+
+  const searchValue = z.coerce
+    .string()
+    .transform((search) => search)
+    .parse(searchParams.get('search') ?? '')
+
   const {
     data: products,
     isLoading,
     isFetching,
   } = useQuery({
-    queryKey: ['get-products'],
-    queryFn: () => getProducts(),
+    queryKey: ['get-products', searchValue],
+    queryFn: () => getProducts({ search: searchValue }),
   })
 
   const requestingProducts = isLoading || isFetching
@@ -72,13 +83,22 @@ export function Dashboard() {
                 Showing {products?.length ?? 0} products
               </p>
             </div>
-            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 align-items-start justify-content-start">
-              {products && products.length > 0
-                ? products.map((product) => (
-                    <ProductCard key={product.titulo} product={product} />
-                  ))
-                : null}
-            </div>
+            {!products || products.length === 0 ? (
+              <div className="d-flex flex-column align-items-center justify-content-center w-100 h-100 mt-4 gap-2 mb-4">
+                <ShoppingBag className="w-25 h-25" />
+                <span className="h5 fw-bold text-dark">
+                  {"Couldn't"} find or load products
+                </span>
+              </div>
+            ) : (
+              <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 align-items-start justify-content-start">
+                {products && products.length > 0
+                  ? products.map((product) => (
+                      <ProductCard key={product.titulo} product={product} />
+                    ))
+                  : null}
+              </div>
+            )}
           </div>
         </section>
       </main>
