@@ -1,5 +1,6 @@
 import { ShoppingBag, ShoppingBasket } from 'lucide-react'
 import { useMemo } from 'react'
+import { Link } from 'react-router-dom'
 
 import { useAppSelector } from '~/redux/store'
 import { formatCurrency } from '~/utils/formatter/currency'
@@ -60,12 +61,14 @@ export function Cart() {
                   {formatCurrency(totalAmount ?? 0, 'us-EN', 'usd')}
                 </strong>
               </span>
-              <button
-                className="btn bg-light text-dark container"
-                type="button"
-              >
-                Checkout
-              </button>
+              <Link to="/checkout">
+                <button
+                  className="btn bg-light text-dark container"
+                  type="button"
+                >
+                  Checkout
+                </button>
+              </Link>
             </div>
           </div>
         ) : (
