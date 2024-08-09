@@ -4,15 +4,17 @@ export function Error() {
   const error = useRouteError() as Error
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-2">
-      <h1 className="text-4xl font-bold">Whoops, algo aconteceu...</h1>
-      <p className="text-accent-foreground">
+    <div className="d-flex vh-100 flex-column align-items-center justify-content-center gap-2">
+      <h1 className="display-4 fw-bold">Whoops, algo aconteceu...</h1>
+      <p className="text-muted">
         Um erro aconteceu na aplicação, abaixo você encontra mais detalhes:
       </p>
-      <pre>{error?.message || JSON.stringify(error)}</pre>
-      <p className="text-accent-foreground">
+      <pre className="bg-light p-2 border rounded">
+        {error?.message || JSON.stringify(error)}
+      </pre>
+      <p className="text-muted">
         Voltar para o{' '}
-        <Link to="/" className="text-red-600 dark:text-red-400">
+        <Link to="/" className="text-danger">
           Dashboard
         </Link>
       </p>
