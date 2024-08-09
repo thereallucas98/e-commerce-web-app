@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Menu, Search, ShoppingBag } from 'lucide-react'
+import { Menu, Search } from 'lucide-react'
 import { ChangeEvent, useCallback } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 
-import { NavLink } from './header/nav-link'
+import { Cart } from './cart'
+import { NavLink } from './nav-link'
 
 export function Header() {
   const [_, setSearchParams] = useSearchParams()
@@ -70,9 +71,7 @@ export function Header() {
           </ul>
         </div>
         {/* CART */}
-        <button className="btn text-light" type="button">
-          <ShoppingBag size={24} />
-        </button>
+        <Cart />
         {/* LOGIN BUTTON */}
         <button className="btn text-light" type="button">
           Login

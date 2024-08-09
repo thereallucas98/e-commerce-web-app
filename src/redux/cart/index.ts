@@ -48,8 +48,10 @@ const cartSlice = createSlice({
       state,
       { payload: { id } }: PayloadAction<RemoveShoppingItemDTO>,
     ) => {
+      console.log('handleDeleteItemFromCart', id)
+
       const updatedCart =
-        state.currentOrder?.filter((rIid) => rIid.id === id) ?? []
+        state.currentOrder?.filter((rIid) => rIid.id !== id) ?? []
 
       state.currentOrder = updatedCart
     },
