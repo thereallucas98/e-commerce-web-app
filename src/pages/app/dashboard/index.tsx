@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async'
 import { CheckboxInput } from '~/components/form/checkbox-input'
 import { Loading } from '~/components/loading'
 import { ProductCard } from '~/components/product-card'
-import { getProducts } from '~/services/products/get-product.service'
+import { getProducts } from '~/services/products/get-products.service'
 
 export function Dashboard() {
   const {

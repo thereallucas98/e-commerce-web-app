@@ -12,7 +12,7 @@ export function Header() {
 
       <div className="d-none d-md-flex gap-4">
         <ul className="nav">
-          <NavLink path="/shop" to="/shop" label="Shop" />
+          <NavLink path="/" to="/" label="Shop" />
           <NavLink path="/stories" to="/stories" label="Stories" />
           <NavLink path="/about" to="/about" label="About" />
         </ul>
@@ -45,24 +45,9 @@ export function Header() {
             <Menu size={24} />
           </button>
           <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <Link
-              className="nav-link text-light text-decoration-none fs-6 fw-normal"
-              to="/shop"
-            >
-              <li>Shop</li>
-            </Link>
-            <Link
-              className="nav-link text-light text-decoration-none fs-6 fw-normal"
-              to="/stories"
-            >
-              <li>Stories</li>
-            </Link>
-            <Link
-              className="nav-link text-light text-decoration-none fs-6 fw-normal"
-              to="/about"
-            >
-              <li>About</li>
-            </Link>
+            <NavLink path="/shop" to="/shop" label="Shop" />
+            <NavLink path="/stories" to="/stories" label="Stories" />
+            <NavLink path="/about" to="/about" label="About" />
           </ul>
         </div>
         {/* CART */}
