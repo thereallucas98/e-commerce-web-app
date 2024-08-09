@@ -18,7 +18,7 @@ export function CartItem({ item }: CartItemProps) {
   }, [dispatch, item.id])
 
   return (
-    <div className="px-2 py-1 d-flex gap-2 align-items-center justify-content-center">
+    <div className="py-1 mb-2 d-flex gap-2 align-items-center justify-content-center">
       <img
         className="img-fluid rounded-1"
         style={{ width: 60, height: 60 }}
