@@ -7,7 +7,8 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 
 import Input from '~/components/form/input'
-import { useAppSelector } from '~/redux/store'
+import { resetCart } from '~/redux/cart'
+import { useAppDispatch, useAppSelector } from '~/redux/store'
 import { formatCurrency } from '~/utils/formatter/currency'
 
 import { ItemCard } from './components/item-card'
@@ -66,6 +67,7 @@ const createCheckoutSchema = z.object({
 type CreateCheckoutInput = z.infer<typeof createCheckoutSchema>
 
 export function Checkout() {
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   const cart = useAppSelector((state) => state.cart.currentOrder)
@@ -95,9 +97,11 @@ export function Checkout() {
     mode: 'all',
   })
 
-  const handleConfirmCheckout = useCallback((data: CreateCheckoutInput) => {
-    console.log('handleConfirmCheckout', data)
-  }, [])
+  const handleConfirmCheckout = useCallback(() => {
+    toast.success('Order successfully created', { position: 'top-right' })
+    dispatch(resetCart())
+    navigate('/confirmation')
+  }, [dispatch, navigate])
 
   useEffect(() => {
     if (cart && cart?.length === 0) {
@@ -112,14 +116,27 @@ export function Checkout() {
       style={{ maxWidth: 1440 }}
     >
       <section className="col align-items-center justify-content-between">
-        <span className="text-dark fs-2">
-          <ShoppingBag size={48} />
-          Your bag
-        </span>
-        <div>
-          {cart &&
-            cart?.length > 0 &&
-            cart.map((iCard) => <ItemCard key={iCard.id} item={iCard} />)}
+        <div className="flex gap-4">
+          <span className="text-dark fs-2">
+            <ShoppingBag size={48} />
+            Your bag
+          </span>
+          <div className="mt-4">
+            {cart &&
+              cart?.length > 0 &&
+              cart.map((iCard) => <ItemCard key={iCard.id} item={iCard} />)}
+          </div>
+        </div>
+        <div className="alert alert-dark mt-4" role="alert">
+          <span>
+            <Lock className="mr-2 text-dark" />
+            Security & Privacy
+          </span>
+          <p>
+            Every transaction on <strong>Lifters Shop</strong> is secure. Any
+            personal information you give us will be handled according to our
+            <span className="text-decoration-underline"> Privacy Policy</span>.
+          </p>
         </div>
       </section>
       <section className="col flex align-items-end jusfity-content-end">
@@ -237,17 +254,6 @@ export function Checkout() {
           </button>
         </form>
       </section>
-      <div className="alert alert-dark mt-4" role="alert">
-        <span>
-          <Lock className="mr-2 text-dark" />
-          Security & Privacy
-        </span>
-        <p>
-          Every transaction on <strong>Lifters Shop</strong> is secure. Any
-          personal information you give us will be handled according to our
-          <span className="text-decoration-underline"> Privacy Policy</span>.
-        </p>
-      </div>
     </main>
   )
 }
